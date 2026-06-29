@@ -5,5 +5,5 @@
 #ollama pull nomic-embed-text -> To install your embedding model
 #ollama serve -. To just ollama
 #Docker must be installed
-#docker run -d -p 6335:6333 qdrant/qdrant -> To run qdrant
-#http://localhost:6335/dashboard-> To access qdrant dashboard
+#docker run -d -p 6333:6333 qdrant/qdrant -> To run qdrant
+#http://localhost:6333/dashboard-> To access qdrant dashboard
