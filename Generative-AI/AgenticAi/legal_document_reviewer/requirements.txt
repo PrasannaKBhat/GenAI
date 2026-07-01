@@ -4,3 +4,5 @@ langchain-community
 langchain-ollama
 streamlit
 pymupdf
+langchain-google-genai
+python-dotenv

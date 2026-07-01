@@ -1,11 +1,22 @@
-from langchain_ollama import ChatOllama
+#from langchain_ollama import ChatOllama
 from tools import read_pdf
 from prompts import *
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 
-llm = ChatOllama(
-    model="llama3.2:3b",
+load_dotenv()
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY"),#This is optional
     temperature=0
 )
+
+#llm = ChatOllama(
+#    model="llama3.2:3b",
+#    temperature=0
+#)
 
 
 def load_document(state):

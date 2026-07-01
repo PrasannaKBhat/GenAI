@@ -1,42 +1,52 @@
-# ⚖️ Legal Document Reviewer using LangGraph
+# ⚖️ AI Legal Document Reviewer using LangGraph
 
-An AI-powered Legal Document Reviewer built using **LangGraph**, **LangChain**, **Ollama**, and **Streamlit**.
+An AI-powered Legal Document Reviewer built using **LangGraph**, **LangChain**, **Google Gemini**, and **Streamlit**.
 
-The application analyzes legal contracts such as NDAs, Employment Agreements, Rental Agreements, and Service Contracts. It summarizes the document, identifies legal risks, checks compliance, and generates a professional review report.
+The application analyzes legal contracts such as NDAs, Employment Agreements, Rental Agreements, and Service Agreements. It summarizes the document, identifies legal risks, verifies compliance, and generates a professional legal review report with **Human-in-the-Loop (HITL)** approval.
 
----
+## Why LangGraph?
 
-## 🚀 Features
+Unlike traditional LangChain chains, LangGraph models the application as a workflow of interconnected AI agents sharing a common state. This enables:
 
-* 📄 Upload PDF legal documents
-* 🤖 AI-powered contract review
-* 📋 Executive summary generation
-* ⚠️ Risk analysis (High, Medium, Low)
-* ✅ Compliance checking
-* 📑 Final legal review report
-* 🧠 LangGraph workflow
-* 💾 Memory & Checkpointing
-* 👨‍⚖️ Human-in-the-Loop (HITL)
-* 🛠️ Tool Calling
-* 🌐 100% Open Source (Runs locally)
+- Stateful execution
+- Modular AI agents
+- Human-in-the-Loop approval
+- Memory & Checkpointing
+- Scalable multi-agent workflows
 
 ---
 
-## 🛠 Tech Stack
+# 🚀 Features
 
-| Technology | Purpose                |
-| ---------- | ---------------------- |
-| Python     | Programming Language   |
-| LangGraph  | Workflow Orchestration |
-| LangChain  | LLM Framework          |
-| Ollama     | Local LLM Runtime      |
-| Qwen2.5:7B | Open Source LLM        |
-| Streamlit  | Web UI                 |
-| PyMuPDF    | PDF Reader             |
+- 📄 Upload PDF legal documents
+- 🤖 AI-powered legal contract analysis
+- 📋 Executive Summary Generation
+- ⚠️ Risk Analysis
+- ✅ Compliance Verification
+- 📑 Final Legal Review Report
+- 👨 Human Approval before report generation
+- 🔄 LangGraph Workflow
+- 💾 Memory & Checkpointing
+- 🛠 PDF Extraction Tool
+- 🌐 Streamlit Web Interface
 
 ---
 
-## 📂 Project Structure
+# 🏗 Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Python | Programming Language |
+| LangGraph | Workflow Orchestration |
+| LangChain | LLM Framework |
+| Google Gemini 2.5 Flash | Large Language Model |
+| Streamlit | User Interface |
+| PyMuPDF | PDF Text Extraction |
+| python-dotenv | Environment Variable Management |
+
+---
+
+# 📂 Project Structure
 
 ```text
 legal-document-reviewer/
@@ -44,232 +54,351 @@ legal-document-reviewer/
 ├── app.py
 ├── graph.py
 ├── nodes.py
-├── prompts.py
 ├── state.py
+├── prompts.py
 ├── tools.py
 ├── requirements.txt
-├── sample.pdf
-└── README.md
+├── README.md
+└── .env
 ```
 
 ---
 
-## 🏗️ Architecture
+# 🏛 System Architecture
 
 ```text
-             Upload PDF
+                User
                   │
                   ▼
-           PDF Reader Tool
+         Upload Legal PDF
+                  │
+                  ▼
+          PDF Extraction Tool
                   │
                   ▼
           LangGraph Workflow
                   │
       ┌───────────┼────────────┐
-      │           │            │
       ▼           ▼            ▼
  Summary      Risk Agent   Compliance Agent
       │           │            │
       └───────────┼────────────┘
                   ▼
-        Human-in-the-Loop
+         Human Approval (HITL)
+                  │
+          Approve / Reject
                   │
                   ▼
-       Final Report Generator
+        Final Report Generator
                   │
                   ▼
-             Streamlit UI
+            Streamlit UI
 ```
 
 ---
 
-## 🔄 LangGraph Workflow
+# 🔄 LangGraph Workflow
 
 ```text
 START
-   │
-Load PDF
-   │
+  │
+  ▼
+Load Document
+  │
+  ▼
+Extract PDF Text
+  │
+  ▼
 Summary Agent
-   │
+  │
+  ▼
 Risk Analysis Agent
-   │
+  │
+  ▼
 Compliance Agent
-   │
+  │
+  ▼
 Human Approval
-   │
-Generate Report
-   │
+  │
+  ▼
+Report Generator
+  │
+  ▼
 END
 ```
 
 ---
 
-## 🤖 AI Agents
+# 🤖 AI Agents
 
-### 1. Summary Agent
+## 📋 Summary Agent
 
-* Reads the contract
-* Generates an executive summary
+Responsibilities
 
-### 2. Risk Analysis Agent
-
-Identifies:
-
-* High Risk Clauses
-* Medium Risk Clauses
-* Low Risk Clauses
-
-### 3. Compliance Agent
-
-Checks for:
-
-* Confidentiality
-* Governing Law
-* Termination
-* Payment Terms
-* Force Majeure
-* Arbitration
-* Data Privacy
-
-### 4. Report Agent
-
-Creates the final legal review report.
+- Read the legal document
+- Generate an executive summary
+- Highlight important clauses
 
 ---
 
-## 🛠 Tool Calling
+## ⚠ Risk Analysis Agent
 
-The application uses a PDF Reader Tool built with **PyMuPDF**.
+Identifies
 
-Responsibilities:
+- High Risk Clauses
+- Medium Risk Clauses
+- Low Risk Clauses
 
-* Read uploaded PDF
-* Extract text
-* Pass content to AI agents
+Examples
 
----
-
-## 🧠 Memory
-
-Uses **LangGraph MemorySaver**.
-
-Benefits:
-
-* Remembers previous conversation
-* Supports follow-up questions
-* Stores workflow state
-
-Example:
-
-```
-User:
-Explain Clause 5
-
-AI:
-Provides explanation without reprocessing the PDF.
-```
+- Unlimited Liability
+- Automatic Renewal
+- Missing Termination Clause
 
 ---
 
-## 💾 Checkpointing
+## ✅ Compliance Agent
 
-Uses LangGraph Checkpointing.
+Checks whether the contract contains
 
-If the application stops unexpectedly:
+- Confidentiality
+- Payment Terms
+- Governing Law
+- Arbitration
+- Force Majeure
+- Data Privacy
+- Termination Clause
+
+---
+
+## 📑 Report Agent
+
+Generates
+
+- Executive Summary
+- Risk Analysis
+- Compliance Report
+- Recommendations
+
+---
+
+# 🛠 Tool Integration
+
+The application uses a dedicated PDF extraction tool.
+
+### Tool
 
 ```
-Summary Completed
+read_pdf()
+```
+
+Responsibilities
+
+- Read uploaded PDF
+- Extract text using PyMuPDF
+- Pass extracted text to LangGraph
+
+---
+
+# 🧠 LangGraph State
+
+The application uses a shared state across all nodes.
+
+Example
+
+```text
+Initial State
+
+{
+    file_path
+}
+
 ↓
 
-Risk Analysis Completed
+Load Document
+
+{
+    file_path,
+    document
+}
+
+↓
+
+Summary
+
+{
+    document,
+    summary
+}
+
+↓
+
+Risk Analysis
+
+{
+    summary,
+    risks
+}
+
+↓
+
+Compliance
+
+{
+    compliance
+}
+
+↓
+
+Final Report
+
+{
+    final_report
+}
+```
+
+Every node updates the same state object.
+
+---
+
+# 💾 Memory
+
+The project uses **LangGraph MemorySaver**.
+
+Benefits
+
+- Maintains workflow state
+- Enables checkpointing
+- Preserves execution state during the workflow
+
+---
+
+# 🔖 Checkpointing
+
+MemorySaver allows the workflow to resume from the last completed node.
+
+Example
+
+```text
+Load Document
+
+↓
+
+Summary
+
+↓
+
+Risk Analysis
+
 ↓
 
 Application Stops
+
 ↓
 
-Resume from Compliance Step
-```
+Restart
 
-No need to start from the beginning.
+↓
+
+Resume from Compliance
+```
 
 ---
 
-## 👨‍⚖️ Human-in-the-Loop (HITL)
+# 👨 Human-in-the-Loop (HITL)
 
-Before generating the final report:
+Before generating the final legal report, the AI presents:
 
-```
-AI:
-Found 3 High Risk Clauses.
+- Executive Summary
+- Risk Analysis
+- Compliance Review
+
+The user must approve the AI analysis before the report is generated.
+
+```text
+AI Review Completed
+
+Summary
+Risk Analysis
+Compliance
+
+──────────────
 
 Approve Report?
 
 [Approve]
-[Review Again]
+
+[Reject]
 ```
 
-This allows human validation before the final report is created.
+This ensures human oversight over AI-generated legal recommendations.
 
 ---
 
-## 📊 Sample Output
+# 📄 Sample Output
 
-### Summary
+## Executive Summary
 
-This agreement defines the terms between ABC Pvt Ltd and XYZ Technologies regarding software development services.
-
-### Risks
-
-* Unlimited Liability
-* Automatic Renewal
-* Missing Termination Notice
-
-### Missing Clauses
-
-* Force Majeure
-* Confidentiality
-* Arbitration
-
-### Recommendation
-
-* Add confidentiality clause.
-* Add liability limitation.
-* Include dispute resolution clause.
+This agreement defines the software development responsibilities between Company A and Company B.
 
 ---
 
-## ⚙️ Installation
+## Risk Analysis
 
-Clone the repository
+- Unlimited Liability
+- Missing Confidentiality Clause
+- Automatic Renewal
+
+---
+
+## Compliance
+
+✔ Payment Terms
+
+✔ Governing Law
+
+❌ Force Majeure
+
+❌ Arbitration
+
+---
+
+## Recommendations
+
+- Add Confidentiality Clause
+- Include Liability Limitation
+- Add Arbitration Clause
+- Define Termination Notice Period
+
+---
+
+# ⚙ Installation
+
+## Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/<your-username>/legal-document-reviewer.git
 ```
 
-Install dependencies
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Install Ollama
+---
 
-https://ollama.com/download
+## Create .env
 
-Pull the model
-
-```bash
-ollama pull qwen2.5:7b
+```text
+GOOGLE_API_KEY=YOUR_API_KEY
 ```
 
-Start Ollama
+---
 
-```bash
-ollama serve
-```
-
-Run the application
+## Run Application
 
 ```bash
 streamlit run app.py
@@ -277,33 +406,54 @@ streamlit run app.py
 
 ---
 
-## 🎯 Future Improvements
+# 🎯 Evaluation Criteria Mapping
 
-* RAG using ChromaDB
-* Legal knowledge base
-* Multi-document comparison
-* Clause highlighting
-* PDF report export
-* OCR support
-* Voice interaction
-* Multi-language support
-
----
-
-## 📸 Screenshots
-
-Add screenshots here after running the application.
+| Requirement | Status |
+|------------|--------|
+| LangGraph Workflow | ✅ |
+| LLM Agents | ✅ |
+| Tool Integration | ✅ |
+| Memory | ✅ |
+| Checkpointing | ✅ |
+| Human-in-the-Loop | ✅ |
+| End-to-End Application | ✅ |
 
 ---
 
-## 👨‍💻 Author
+# 🚀 Future Enhancements
+
+- Retrieval-Augmented Generation (RAG)
+- ChromaDB Integration
+- Legal Clause Knowledge Base
+- Multi-document Comparison
+- PDF Report Export
+- OCR Support
+- Chat with Contract
+- Multi-language Support
+
+---
+
+# 📸 Screenshots
+
+Add screenshots of
+
+- Upload Screen
+- Review Screen
+- Human Approval
+- Final Report
+
+---
+
+# 👨‍💻 Author
 
 **Prasanna Bhat**
 
-Senior Android Engineer | AI & LangGraph Enthusiast
+Senior Android Engineer
+
+AI • LangGraph • Android • Generative AI
 
 ---
 
-## 📄 License
+# 📄 License
 
 MIT License

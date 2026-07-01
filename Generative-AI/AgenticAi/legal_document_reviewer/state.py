@@ -9,6 +9,6 @@ class ReviewState(TypedDict):
     risks: str
     compliance: str
 
-    approval: bool
+    approval: str
 
     final_report: str
